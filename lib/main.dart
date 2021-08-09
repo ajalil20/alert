@@ -1,5 +1,10 @@
+import 'package:embassy/button.dart';
 import 'package:embassy/feedback.dart';
+import 'package:embassy/globals.dart';
+import 'package:embassy/phoneinput.dart';
+import 'package:embassy/thankyou.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 void main() {
@@ -11,288 +16,241 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Feedbackform(),
+      home: Home(),
     );
   }
 }
 
-class UI22 extends StatefulWidget {
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
   @override
-  _UI22State createState() => _UI22State();
+  _HomeState createState() => _HomeState();
 }
 
-class _UI22State extends State<UI22> {
-  List<bool> isTypeSelected = [false, false, false, true, true];
-  final TextEditingController controller = TextEditingController();
-  String initialCountry = 'AE';
-  PhoneNumber number = PhoneNumber(isoCode: 'AE');
-
+class _HomeState extends State<Home> {
+  bool verydisatisfy = false;
+  bool disatisfy = false;
+  bool neutral = false;
+  bool satisfy = false;
+  bool happy = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
-        elevation: 2.0,
-        centerTitle: true,
-        title: Text(
-          "Feedback",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {},
-        ),
-      ),
-      body: ListView(children: [
-        Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 10.0,
-              ),
-              Text(
-                "Please select the type of the feedback",
-                style: TextStyle(
-                  color: Color(0xFFC5C5C5),
-                ),
-              ),
-              SizedBox(height: 25.0),
-              GestureDetector(
-                child: buildCheckItem(
-                    title: "Login trouble", isSelected: isTypeSelected[0]),
-                onTap: () {
-                  setState(() {
-                    isTypeSelected[0] = !isTypeSelected[0];
-                  });
-                },
-              ),
-              GestureDetector(
-                child: buildCheckItem(
-                    title: "Phone number related",
-                    isSelected: isTypeSelected[1]),
-                onTap: () {
-                  setState(() {
-                    isTypeSelected[1] = !isTypeSelected[1];
-                  });
-                },
-              ),
-              GestureDetector(
-                child: buildCheckItem(
-                    title: "Personal profile", isSelected: isTypeSelected[2]),
-                onTap: () {
-                  setState(() {
-                    isTypeSelected[2] = !isTypeSelected[2];
-                  });
-                },
-              ),
-              GestureDetector(
-                child: buildCheckItem(
-                    title: "Other issues", isSelected: isTypeSelected[3]),
-                onTap: () {
-                  setState(() {
-                    isTypeSelected[3] = !isTypeSelected[3];
-                  });
-                },
-              ),
-              GestureDetector(
-                child: buildCheckItem(
-                    title: "Suggestions", isSelected: isTypeSelected[4]),
-                onTap: () {
-                  setState(() {
-                    isTypeSelected[4] = !isTypeSelected[4];
-                  });
-                },
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              buildFeedbackForm(),
-              SizedBox(height: 20.0),
-              buildNumberField(),
-              // Spacer(),
-              Row(
-                children: [
-                  FlatButton(
-                    onPressed: () {},
-                    child: Text(
-                      "SUBMIT",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    color: Color(0xFFE5E5E5),
-                    padding: EdgeInsets.all(16.0),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ]),
-    );
-  }
-
-  buildNumberField() {
-    return TextField(
-      style: TextStyle(color: Colors.black),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(0.0),
-        prefixIcon: Row(
-          mainAxisSize: MainAxisSize.min,
+      body: SafeArea(
+          child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+              height: MediaQuery.of(context).size.height * 0.2,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                border: Border(
-                  right: BorderSide(
-                    width: 1.0,
-                    color: Color(0xFFC5C5C5),
-                  ),
-                ),
+                color: Color(0xff20376A),
+                image: DecorationImage(
+                    image: AssetImage(
+                      "images/banner.jpg",
+                      // "widget.ndimage"
+                    ),
+                    fit: BoxFit.fill),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+              child: Text(
+                "Client Informations",
+                style: GoogleFonts.poppins(
+                    // color: Colors.grey,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 30),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 20.0,
               ),
               child: Row(
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
-                    width: 10.0,
+                  Text(
+                    "Please Enter Your Mobile Number?",
+                    style: GoogleFonts.poppins(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18),
                   ),
-                  // Text(
-                  //   "+60",
-                  //   style: TextStyle(
-                  //     fontWeight: FontWeight.bold,
-                  //     color: Color(0xFFC5C5C5),
-                  //   ),
-                  // ),
-                  InternationalPhoneNumberInput(
-                    onInputChanged: (PhoneNumber number) {
-                      print(number.phoneNumber);
+                  Text(
+                    "*",
+                    style: TextStyle(fontSize: 18, color: Colors.red),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: InputPhone(),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+              child: Text(
+                "How do you feel about the level of service ?",
+                style: GoogleFonts.poppins(
+                    color: Color(0xff20376A),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        verydisatisfy = true;
+                        disatisfy = false;
+                        neutral = false;
+                        satisfy = false;
+                        happy = false;
+                      });
                     },
-                    onInputValidated: (bool value) {
-                      print(value);
+                    child: Icon(
+                      Icons.sentiment_very_dissatisfied_rounded,
+                      size: MediaQuery.of(context).size.width * 0.16,
+                      color: verydisatisfy ? Colors.yellow : Colors.grey,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        verydisatisfy = false;
+                        disatisfy = true;
+                        neutral = false;
+                        satisfy = false;
+                        happy = false;
+                      });
                     },
-                    ignoreBlank: false,
-
-                    autoValidateMode: AutovalidateMode.disabled,
-                    selectorTextStyle: TextStyle(color: Colors.black),
-                    //  selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-
-                    initialValue: number,
-                    textFieldController: controller,
-                    inputBorder: OutlineInputBorder(),
+                    child: Icon(
+                      Icons.sentiment_dissatisfied_rounded,
+                      size: MediaQuery.of(context).size.width * 0.16,
+                      color: disatisfy ? Colors.yellow : Colors.grey,
+                    ),
                   ),
-                  Icon(
-                    Icons.arrow_drop_down,
-                    color: Colors.cyan,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        verydisatisfy = false;
+                        disatisfy = false;
+                        neutral = true;
+                        satisfy = false;
+                        happy = false;
+                      });
+                    },
+                    child: Icon(
+                      Icons.sentiment_neutral_rounded,
+                      size: MediaQuery.of(context).size.width * 0.16,
+                      color: neutral ? Colors.yellow : Colors.grey,
+                    ),
                   ),
-                  SizedBox(
-                    width: 10.0,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        verydisatisfy = false;
+                        disatisfy = false;
+                        neutral = false;
+                        satisfy = true;
+                        happy = false;
+                      });
+                    },
+                    child: Icon(
+                      Icons.sentiment_satisfied_alt_rounded,
+                      size: MediaQuery.of(context).size.width * 0.16,
+                      color: satisfy ? Colors.yellow : Colors.grey,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        verydisatisfy = false;
+                        disatisfy = false;
+                        neutral = false;
+                        satisfy = false;
+                        happy = true;
+                      });
+                    },
+                    child: Icon(
+                      Icons.sentiment_very_satisfied_rounded,
+                      size: MediaQuery.of(context).size.width * 0.16,
+                      color: happy ? Colors.yellow : Colors.grey,
+                    ),
                   ),
                 ],
               ),
             ),
-            SizedBox(
-              width: 10.0,
+            //               padding: const EdgeInsets.symmetric(vertical: 25),
+
+            Container(
+              height: MediaQuery.of(context).size.height * 0.1,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: Custombutton(
+                      buttontext: "Back",
+                      buttonbgcolor: Color(0xff20376A),
+                      buttonheight: MediaQuery.of(context).size.height * 0.06,
+                      buttontxtcolor: Colors.white,
+                      buttonwidth: MediaQuery.of(context).size.width * 0.4,
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    if (verydisatisfy == true ||
+                        disatisfy == true ||
+                        neutral == true ||
+                        satisfy == true ||
+                        happy == true) {
+                      if (numberok == true) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Thankyou()));
+                      }
+                    }
+                  },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: Custombutton(
+                      buttontext: "Submit",
+                      buttonbgcolor: Color(0xff20376A),
+                      buttonheight: MediaQuery.of(context).size.height * 0.06,
+                      buttontxtcolor: Colors.white,
+                      buttonwidth: MediaQuery.of(context).size.width * 0.4,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
-        hintStyle: TextStyle(
-          fontSize: 14.0,
-          color: Color(0xFFC5C5C5),
-        ),
-        hintText: "Phone Number",
-        border: OutlineInputBorder(),
-      ),
-    );
-  }
-
-  buildFeedbackForm() {
-    return Container(
-      height: 200,
-      child: Stack(
-        children: [
-          TextField(
-            maxLines: 10,
-            decoration: InputDecoration(
-              hintText: "Please briefly describe the issue",
-              hintStyle: TextStyle(
-                fontSize: 13.0,
-                color: Color(0xFFC5C5C5),
-              ),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Color(0xFFE5E5E5),
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    width: 1.0,
-                    color: Color(0xFFA6A6A6),
-                  ),
-                ),
-              ),
-              padding: EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xFFE5E5E5),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.add,
-                        color: Color(0xFFA5A5A5),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                    "Upload screenshot (optional)",
-                    style: TextStyle(
-                      color: Color(0xFFC5C5C5),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget buildCheckItem({required String title, required bool isSelected}) {
-    return Container(
-      padding: const EdgeInsets.all(6.0),
-      child: Row(
-        children: [
-          Icon(
-            isSelected ? Icons.check_circle : Icons.circle,
-            color: isSelected ? Colors.blue : Colors.grey,
-          ),
-          SizedBox(width: 10.0),
-          Text(
-            title,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: isSelected ? Colors.blue : Colors.grey),
-          ),
-        ],
-      ),
+      )),
     );
   }
 }

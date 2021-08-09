@@ -1,119 +1,176 @@
+import 'package:embassy/button.dart';
+import 'package:embassy/thankyou.dart';
 import 'package:flutter/material.dart';
-import 'package:rating_dialog/rating_dialog.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Feedbackform extends StatefulWidget {
-  const Feedbackform({Key? key}) : super(key: key);
-
   @override
   _FeedbackformState createState() => _FeedbackformState();
 }
 
 class _FeedbackformState extends State<Feedbackform> {
-  List<bool> isTypeSelected = [false, false, false, true, true];
-  final _dialog = RatingDialog(
-    title: 'App name',
-    message:
-        'Tap a star to set your rating. Add more description here if you want.',
-    image: const FlutterLogo(size: 100),
-    submitButton: 'Submit',
-    onCancelled: () => print('cancelled'),
-    onSubmitted: (response) {
-      print('rating: ${response.rating}, comment: ${response.comment}');
+  bool verydisatisfy = false;
+  bool disatisfy = false;
+  bool neutral = false;
+  bool satisfy = false;
+  bool happy = false;
 
-      // TODO: add your own logic
-      if (response.rating < 3.0) {
-      } else {
-        // _rateAndReviewApp();
-      }
-    },
-  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff20376A),
       body: SafeArea(
         child: Container(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [Text("Give us a "), Text("Feedback!")],
+              Container(
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Color(0xff20376A),
+                  image: DecorationImage(
+                      image: AssetImage(
+                        "images/banner.jpg",
+                        // "widget.ndimage"
+                      ),
+                      fit: BoxFit.fill),
+                ),
               ),
-              GestureDetector(
-                child: buildCheckItem(
-                    title: "Issue 0", isSelected: isTypeSelected[0]),
-                onTap: () {
-                  setState(() {
-                    isTypeSelected[1] = !isTypeSelected[0];
-                  });
-                },
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                ),
+                child: Text(
+                  "How do you feel about the level of service ?",
+                  style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20),
+                ),
               ),
-              GestureDetector(
-                child: buildCheckItem(
-                    title: "Issue 1", isSelected: isTypeSelected[1]),
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) => _dialog,
-                      barrierDismissible: true);
-                  setState(() {
-                    isTypeSelected[1] = !isTypeSelected[1];
-                  });
-                },
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          verydisatisfy = true;
+                          disatisfy = false;
+                          neutral = false;
+                          satisfy = false;
+                          happy = false;
+                        });
+                      },
+                      child: Icon(
+                        Icons.sentiment_very_dissatisfied_rounded,
+                        size: 70,
+                        color: verydisatisfy ? Colors.yellow : Colors.grey,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          verydisatisfy = false;
+                          disatisfy = true;
+                          neutral = false;
+                          satisfy = false;
+                          happy = false;
+                        });
+                      },
+                      child: Icon(
+                        Icons.sentiment_dissatisfied_rounded,
+                        size: 70,
+                        color: disatisfy ? Colors.yellow : Colors.grey,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          verydisatisfy = false;
+                          disatisfy = false;
+                          neutral = true;
+                          satisfy = false;
+                          happy = false;
+                        });
+                      },
+                      child: Icon(
+                        Icons.sentiment_neutral_rounded,
+                        size: 70,
+                        color: neutral ? Colors.yellow : Colors.grey,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          verydisatisfy = false;
+                          disatisfy = false;
+                          neutral = false;
+                          satisfy = true;
+                          happy = false;
+                        });
+                      },
+                      child: Icon(
+                        Icons.sentiment_satisfied_alt_rounded,
+                        size: 70,
+                        color: satisfy ? Colors.yellow : Colors.grey,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          verydisatisfy = false;
+                          disatisfy = false;
+                          neutral = false;
+                          satisfy = false;
+                          happy = true;
+                        });
+                      },
+                      child: Icon(
+                        Icons.sentiment_very_satisfied_rounded,
+                        size: 70,
+                        color: happy ? Colors.yellow : Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              GestureDetector(
-                child: buildCheckItem(
-                    title: "Issue 2", isSelected: isTypeSelected[2]),
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) => _dialog,
-                      barrierDismissible: true);
-                  setState(() {
-                    isTypeSelected[2] = !isTypeSelected[2];
-                  });
-                },
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      if (verydisatisfy == true ||
+                          disatisfy == true ||
+                          neutral == true ||
+                          satisfy == true ||
+                          happy == true) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Thankyou()));
+                      }
+                    },
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: Custombutton(
+                        buttontext: "Submit",
+                        buttonbgcolor: Colors.white,
+                        buttonheight: MediaQuery.of(context).size.height * 0.06,
+                        buttontxtcolor: Color(0xff20376A),
+                        buttonwidth: MediaQuery.of(context).size.width * 0.4,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              GestureDetector(
-                child: buildCheckItem(
-                    title: "Issue 3", isSelected: isTypeSelected[3]),
-                onTap: () {
-                  setState(() {
-                    isTypeSelected[3] = !isTypeSelected[3];
-                  });
-                },
-              ),
-              GestureDetector(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => _dialog,
-                        barrierDismissible: true);
-                  },
-                  child: Text("Rate Us")),
             ],
           ),
         ),
       ),
     );
   }
-}
-
-Widget buildCheckItem({required String title, required bool isSelected}) {
-  return Container(
-    padding: const EdgeInsets.all(6.0),
-    child: Row(
-      children: [
-        Icon(
-          isSelected ? Icons.check_circle : Icons.circle,
-          color: isSelected ? Colors.blue : Colors.grey,
-        ),
-        SizedBox(width: 10.0),
-        Text(
-          title,
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: isSelected ? Colors.blue : Colors.grey),
-        ),
-      ],
-    ),
-  );
 }
